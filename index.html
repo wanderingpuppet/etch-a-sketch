@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <title>Etch-a-Sketch</title>
+
+  <link rel="stylesheet" href="style.css" />
+
+  <script src="script.js" defer></script>
+</head>
+
+<body>
+  <div class="header">Etch-a-Sketch</div>
+
+  <div class="main">
+    <div class="options">
+      <div class="color-grid">
+        <label for="pen-color" class="color-label">Pen</label>
+        <input type="color" id="pen-color" />
+        <label for="canvas-color" class="color-label">Canvas</label>
+        <input type="color" id="canvas-color" />
+      </div>
+
+      <div>
+        <div class="suboptions-label">Actions</div>
+        <div class="suboptions actions">
+          <button class="action new">New</button>
+          <button class="action clear">Clear</button>
+        </div>
+      </div>
+
+      <div>
+        <div class="suboptions-label">Mode</div>
+        <div class="suboptions toggles">
+          <button class="toggle eraser">Eraser</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="canvas-container">
+      <div class="canvas" draggable="false"></div>
+    </div>
+  </div>
+</body>
+
+</html>
