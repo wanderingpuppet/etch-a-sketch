@@ -1,10 +1,12 @@
 const actions = document.querySelectorAll(".action");
+const toggles = document.querySelectorAll(".toggle");
 
 const penColor = document.querySelector("#pen-color");
 const canvasColor = document.querySelector("#canvas-color");
 const newButton = document.querySelector(".new");
 const clearButton = document.querySelector(".clear");
 const eraserToggle = document.querySelector(".eraser");
+const randomToggle = document.querySelector(".random");
 
 const canvas = document.querySelector(".canvas");
 
@@ -16,11 +18,11 @@ actions.forEach((action) => {
   action.addEventListener("click", activate);
   action.addEventListener("transitionend", deactivate);
 });
+toggles.forEach((toggle) => toggle.addEventListener("click", toggleActive));
 
 canvasColor.addEventListener("change", setCanvasColor);
 newButton.addEventListener("click", createNewCanvas);
 clearButton.addEventListener("click", clearCanvas);
-eraserToggle.addEventListener("click", toggleActive);
 
 /*
   Start drawing after the mouse main button is pressed inside canvas and stop
@@ -38,9 +40,13 @@ function colorCell(event) {
   if (!event.target.classList.contains("cell")) return;
 
   // Get color for the cell
+  const activeToggle = getActiveToggle();
   let colorValue;
-  if (eraserToggle.classList.contains("active")) {
+
+  if (activeToggle === eraserToggle) {
     colorValue = "";
+  } else if (activeToggle === randomToggle) {
+    colorValue = getRandomColor();
   } else {
     colorValue = penColor.value;
   }
@@ -89,6 +95,12 @@ function deactivate() {
 }
 
 function toggleActive() {
+  // Deactivate other previously activated toggle
+  const activeToggle = getActiveToggle();
+  if (activeToggle && activeToggle !== this) {
+    activeToggle.classList.remove("active");
+  }
+
   this.classList.toggle("active");
 }
 
@@ -119,4 +131,20 @@ function createCells(canvasSize) {
     cell.draggable = false;
     canvas.appendChild(cell);
   }
+}
+
+function getActiveToggle() {
+  return document.querySelector(".toggle.active");
+}
+
+function getRandomColor() {
+  const r = randInt(255);
+  const g = randInt(255);
+  const b = randInt(255);
+
+  return `rgb(${r}, ${g}, ${b})`;
+}
+
+function randInt(n) {
+  return Math.floor(Math.random() * (n + 1));
 }
