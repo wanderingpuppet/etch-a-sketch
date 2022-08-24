@@ -7,6 +7,7 @@ const newButton = document.querySelector(".new");
 const clearButton = document.querySelector(".clear");
 const eraserToggle = document.querySelector(".eraser");
 const randomToggle = document.querySelector(".random");
+const lightenToggle = document.querySelector(".lighten");
 
 const canvas = document.querySelector(".canvas");
 
@@ -40,6 +41,7 @@ function colorCell(event) {
   if (!event.target.classList.contains("cell")) return;
 
   // Get color for the cell
+  const currCellColor = event.target.style.backgroundColor;
   const activeToggle = getActiveToggle();
   let colorValue;
 
@@ -47,6 +49,8 @@ function colorCell(event) {
     colorValue = "";
   } else if (activeToggle === randomToggle) {
     colorValue = getRandomColor();
+  } else if (activeToggle === lightenToggle) {
+    colorValue = currCellColor ? lightenRGB(currCellColor, 10) : "";
   } else {
     colorValue = penColor.value;
   }
@@ -137,6 +141,14 @@ function getActiveToggle() {
   return document.querySelector(".toggle.active");
 }
 
+function lightenRGB(rgbValue, increment) {
+  let [r, g, b] = rgbValue.match(/\d+/g);
+  r = addUpTo(+r, increment, 255);
+  g = addUpTo(+g, increment, 255);
+  b = addUpTo(+b, increment, 255);
+  return `rgb(${r}, ${g}, ${b})`;
+}
+
 function getRandomColor() {
   const r = randInt(255);
   const g = randInt(255);
@@ -147,4 +159,9 @@ function getRandomColor() {
 
 function randInt(n) {
   return Math.floor(Math.random() * (n + 1));
+}
+
+function addUpTo(a, b, max) {
+  const result = a + b;
+  return result > max ? max : result;
 }
