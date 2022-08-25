@@ -8,6 +8,7 @@ const clearButton = document.querySelector(".clear");
 const eraserToggle = document.querySelector(".eraser");
 const randomToggle = document.querySelector(".random");
 const lightenToggle = document.querySelector(".lighten");
+const darkenToggle = document.querySelector(".darken");
 
 const canvas = document.querySelector(".canvas");
 
@@ -51,6 +52,8 @@ function colorCell(event) {
     colorValue = getRandomColor();
   } else if (activeToggle === lightenToggle) {
     colorValue = currCellColor ? lightenRGB(currCellColor, 10) : "";
+  } else if (activeToggle === darkenToggle) {
+    colorValue = currCellColor ? darkenRGB(currCellColor, 10) : "";
   } else {
     colorValue = penColor.value;
   }
@@ -149,6 +152,14 @@ function lightenRGB(rgbValue, increment) {
   return `rgb(${r}, ${g}, ${b})`;
 }
 
+function darkenRGB(rgbValue, decrement) {
+  let [r, g, b] = rgbValue.match(/\d+/g);
+  r = subtractDownTo(+r, decrement, 0);
+  g = subtractDownTo(+g, decrement, 0);
+  b = subtractDownTo(+b, decrement, 0);
+  return `rgb(${r}, ${g}, ${b})`;
+}
+
 function getRandomColor() {
   const r = randInt(255);
   const g = randInt(255);
@@ -164,4 +175,9 @@ function randInt(n) {
 function addUpTo(a, b, max) {
   const result = a + b;
   return result > max ? max : result;
+}
+
+function subtractDownTo(a, b, min) {
+  const result = a - b;
+  return result < min ? min : result;
 }
